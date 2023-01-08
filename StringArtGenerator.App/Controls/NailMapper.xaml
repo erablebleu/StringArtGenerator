@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="StringArtGenerator.App.Controls.NailMapper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StringArtGenerator.App.Controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="ShadowStyle" TargetType="{x:Type Rectangle}">
+            <Setter Property="Fill" Value="Black"/>
+            <Setter Property="Opacity" Value="0.2"/>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer x:Name="sv"
+                  HorizontalScrollBarVisibility="Visible" 
+                  VerticalScrollBarVisibility="Visible" Background="AliceBlue"
+                PreviewMouseMove="OnPreviewMouseMove"
+                PreviewMouseUp="OnEndDrag"
+                MouseLeave="OnEndDrag"
+                PreviewMouseDown="OnPreviewMouseDown"
+                PreviewMouseWheel="OnMouseWheel"
+                  >
+        <Canvas x:Name="canvas"
+                Background="White">
+            <Image x:Name="srcImage" Opacity="0.5"/>
+
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NailMapper}}, Path=Position.X}"
+                                        Y="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NailMapper}}, Path=Position.Y}"/>
+                </Canvas.RenderTransform>
+
+                <Canvas >
+                    <Canvas.RenderTransform>
+                        <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NailMapper}}, Path=Scale}"
+                                        ScaleY="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NailMapper}}, Path=Scale}"/>
+                    </Canvas.RenderTransform>
+
+                    <ItemsControl x:Name="linesGroup">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate >
+                                <Line Stroke="Black"
+                                    StrokeThickness="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NailMapper}}, Path=LineThickness}"
+                                    X1="{Binding Nail1.Position.X}"
+                                    Y1="{Binding Nail1.Position.Y}"
+                                    X2="{Binding Nail2.Position.X}"
+                                    Y2="{Binding Nail2.Position.Y}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                    <ItemsControl x:Name="nailsGroup">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
+                                <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate >
+                                <Ellipse Width="{Binding Diameter}" 
+                                         Height="{Binding Diameter}" 
+                                         Fill="Red" PreviewMouseDown="OnPreviewMouseDown" >
+                                    <Ellipse.RenderTransform>
+                                        <TranslateTransform X="{Binding Diameter, Converter={StaticResource MultiplicationConverter}, ConverterParameter=-0.5}" 
+                                                            Y="{Binding Diameter, Converter={StaticResource MultiplicationConverter}, ConverterParameter=-0.5}"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Ellipse x:Name="selectedNail" Stroke="Red" Opacity="0.6" StrokeThickness="1">
+                        <Ellipse.RenderTransform>
+                            <TranslateTransform X="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Ellipse}}, Path=Width, Converter={StaticResource MultiplicationConverter}, ConverterParameter=-0.5}"
+                                                Y="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Ellipse}}, Path=Height, Converter={StaticResource MultiplicationConverter}, ConverterParameter=-0.5}"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                </Canvas>
+            </Canvas>
+            <Canvas x:Name="mapGroup">
+                <Rectangle x:Name="mapArea0" Style="{StaticResource ShadowStyle}"/>
+                <Rectangle x:Name="mapArea1" Style="{StaticResource ShadowStyle}"/>
+                <Rectangle x:Name="mapArea2" Style="{StaticResource ShadowStyle}"/>
+                <Rectangle x:Name="mapArea3" Style="{StaticResource ShadowStyle}"/>
+            </Canvas>
+            <Rectangle x:Name="mover" Height="3" Width="40" Fill="Red" Cursor="SizeAll" PreviewMouseDown="OnPreviewMouseDown">
+                <Rectangle.RenderTransform>
+                    <TranslateTransform X="-20" Y="5"/>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="resizer" Height="3" Width="40" Fill="Blue" Cursor="SizeNWSE" PreviewMouseDown="OnPreviewMouseDown">
+                <Rectangle.RenderTransform>
+                    <TranslateTransform X="-20" Y="5"/>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Canvas>
+    </ScrollViewer>
+</UserControl>

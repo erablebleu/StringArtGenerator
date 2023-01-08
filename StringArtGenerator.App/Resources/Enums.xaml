@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:enums="clr-namespace:StringArtGenerator.App.Resources.Enums"
+                    xmlns:model="clr-namespace:StringArtGenerator.App.Model"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ObjectDataProvider x:Key="EnumMaximizationFunction" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="enums:MaximizationFunction"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
+    <ObjectDataProvider x:Key="EnumNailMapShape" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="enums:NailMapShape"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+    <ObjectDataProvider x:Key="EnumEvolutionFunction" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="model:EvolutionFunction"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+</ResourceDictionary>

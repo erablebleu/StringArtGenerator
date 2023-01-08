@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="StringArtGenerator.App.Views.StepperView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StringArtGenerator.App.Views"
+             xmlns:ctrl="clr-namespace:StringArtGenerator.App.Controls"
+             xmlns:vm="clr-namespace:StringArtGenerator.App.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:behaviors="clr-namespace:StringArtGenerator.App.Resources.Behaviors"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:StepperViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+
+        <Grid DockPanel.Dock="Bottom">
+            <ProgressBar Value="{Binding ProjectApplicationService.CurrentProject.Stepper.Step}"
+                         Maximum="{Binding ProjectApplicationService.CurrentProject.CalculationResult.Instructions.Count}"/>
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="{Binding ProjectApplicationService.CurrentProject.Stepper.Step, Mode=OneWay}"/> /
+                <Run Text="{Binding ProjectApplicationService.CurrentProject.CalculationResult.Instructions.Count, Mode=OneWay}"/>
+            </TextBlock>
+        </Grid>
+
+        
+        <ListBox DockPanel.Dock="Right"
+                 ItemsSource="{Binding ProjectApplicationService.CurrentProject.CalculationResult.Instructions}"
+                 SelectedIndex="{Binding ProjectApplicationService.CurrentProject.Stepper.Step}"
+                 AlternationCount="99999">
+            
+            <i:Interaction.Behaviors>
+                <behaviors:ScrollIntoViewForListBox />
+            </i:Interaction.Behaviors>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Left" TextAlignment="Left" VerticalAlignment="Center" Foreground="Gray" FontStyle="Italic" FontSize="10" Width="30">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource ItemToListIndexConverter}" ConverterParameter="1" StringFormat="{}{0} :">
+                                    <Binding Mode="OneWay" />
+                                    <Binding Mode="OneWay" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}" Path="ItemsSource"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
+                        <!--<Rectangle DockPanel.Dock="Right" Width="20" Height="20">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{Binding }" />
+                            </Rectangle.Fill>
+                        </Rectangle>-->
+                        <TextBlock DockPanel.Dock="Right" TextAlignment="Right" VerticalAlignment="Center" Foreground="Gray" FontStyle="Italic" FontSize="10" Width="30" Text="{Binding ThreadIndex, StringFormat='({0})'}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding Nail1Index}" Width="30" TextAlignment="Center"/>
+                            <TextBlock Text="&#10143;" Width="20" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding Nail2Index}" Width="30" TextAlignment="Center"/>
+                        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ctrl:Stepper Grid.Column="0" Nails="{Binding ProjectApplicationService.CurrentProject.NailMap.Nails}"
+                      Instructions="{Binding ProjectApplicationService.CurrentProject.CalculationResult.Instructions}"
+                      Step="{Binding ProjectApplicationService.CurrentProject.Stepper.Step}"
+                      Threads="{Binding ProjectApplicationService.CurrentProject.Threads}"/>
+        <!--<ctrl:Stepper2 Grid.Column="1" Nails="{Binding ProjectApplicationService.CurrentProject.NailMap.Nails}"
+                      Instructions="{Binding ProjectApplicationService.CurrentProject.CalculationResult.Instructions}"
+                      Step="{Binding ProjectApplicationService.CurrentProject.Stepper.Step}"
+                      Threads="{Binding ProjectApplicationService.CurrentProject.Threads}"/>-->
+    </DockPanel>
+</UserControl>

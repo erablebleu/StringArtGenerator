@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="StringArtGenerator.App.Controls.Cropper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StringArtGenerator.App.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="ResizeRect" TargetType="{x:Type Rectangle}">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Fill" Value="Red"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform X="-10" Y="-10"/>
+                </Setter.Value>
+            </Setter>
+            <EventSetter Event="PreviewMouseDown" Handler="OnPreviewMouseDown"/>
+        </Style>
+        <Style x:Key="BackRect" TargetType="{x:Type Rectangle}">
+            <Setter Property="Fill" Value="Black"/>
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+    </UserControl.Resources>
+    <Viewbox>
+        <Canvas x:Name="Canvas_Cropping" Background="AliceBlue"
+                PreviewMouseMove="OnPreviewMouseMove"
+                PreviewMouseUp="OnEndDrag"
+                MouseLeave="OnEndDrag">
+            <Image x:Name="Image_Source"/>
+            <Rectangle x:Name="BackLeft" Style="{StaticResource BackRect}"/>
+            <Rectangle x:Name="BackTop" Style="{StaticResource BackRect}"/>
+            <Rectangle x:Name="BackRight" Style="{StaticResource BackRect}"/>
+            <Rectangle x:Name="BackBottom" Style="{StaticResource BackRect}"/>
+            <Rectangle x:Name="Rect_Cropping" 
+                       Stroke="Red" 
+                       StrokeThickness="3"
+                       Fill="#05FFFFFF"
+                       Cursor="SizeAll"
+                       PreviewMouseDown="OnPreviewMouseDown"
+                       />
+            <Rectangle x:Name="RedimW" Style="{StaticResource ResizeRect}" Cursor="SizeWE"/>
+            <Rectangle x:Name="RedimN" Style="{StaticResource ResizeRect}" Cursor="SizeNS"/>
+            <Rectangle x:Name="RedimE" Style="{StaticResource ResizeRect}" Cursor="SizeWE"/>
+            <Rectangle x:Name="RedimS" Style="{StaticResource ResizeRect}" Cursor="SizeNS"/>
+
+            <Rectangle x:Name="RedimNW" Style="{StaticResource ResizeRect}" Cursor="SizeNWSE"/>
+            <Rectangle x:Name="RedimNE" Style="{StaticResource ResizeRect}" Cursor="SizeNESW"/>
+            <Rectangle x:Name="RedimSE" Style="{StaticResource ResizeRect}" Cursor="SizeNWSE"/>
+            <Rectangle x:Name="RedimSW" Style="{StaticResource ResizeRect}" Cursor="SizeNESW"/>
+        </Canvas>
+    </Viewbox>
+</UserControl>

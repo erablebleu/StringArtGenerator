@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="StringArtGenerator.App.Controls.Stepper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StringArtGenerator.App.Controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             Background="AliceBlue"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Width" Value="50"/>
+                    <Setter Property="FontSize" Value="32"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" x:Name="buttonFirstStep" Content="&#171;" Click="GoToFirstStep"/>
+            <Button Grid.Column="1" x:Name="buttonPreviousStep" Content="&#8249;" Click="GoToPreviousStep"/>
+
+            <DockPanel Grid.Column="2">
+                <TextBlock DockPanel.Dock="Bottom" FontSize="20" TextAlignment="Center">
+                    <Run x:Name="tbSource"/>
+                    &#10143;
+                    <Run x:Name="tbDestination" Foreground="Red"/>
+                </TextBlock>
+                <TextBlock x:Name="tbStep" FontSize="20" TextAlignment="Center"/>
+            </DockPanel>
+
+            <Button Grid.Column="3" x:Name="buttonNextStep" Content="&#8250;" Click="GoToNextStep"/>
+            <Button Grid.Column="4" x:Name="buttonLastStep" Content="&#187;" Click="GoToLastStep"/>
+        </Grid>
+        <TextBlock DockPanel.Dock="Bottom" x:Name="log" FontSize="10" Foreground="Gray"/>
+
+        <Viewbox Stretch="Uniform" ClipToBounds="True">
+
+            <Canvas x:Name="canvas" Width="600" Height="600" IsHitTestVisible="False">
+                <ItemsControl x:Name="nailsGroup">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
+                            <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate >
+                            <Ellipse Width="{Binding Diameter}" 
+                                     Height="{Binding Diameter}" 
+                                     Fill="Gray" >
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform X="{Binding Diameter, Converter={StaticResource MultiplicationConverter}, ConverterParameter=-0.5}" 
+                                                        Y="{Binding Diameter, Converter={StaticResource MultiplicationConverter}, ConverterParameter=-0.5}"/>
+                                </Ellipse.RenderTransform>    
+                            </Ellipse>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid x:Name="lineGroup">
+                </Grid>
+                <!--<Grid x:Name="nailsGroup">
+                </Grid>-->
+                <Path x:Name="LeftArrow"
+                      Fill="Red"
+                      Data="M 0 -16.697266 C -9.203444 -16.697266 -16.697266 -9.203444 -16.697266 0 A 1.7007855 1.7007855 0 0 0 -15 1.6972656 A 1.7007855 1.7007855 0 0 0 -13.302734 0 C -13.302734 -7.3650985 -7.3650985 -13.302734 0 -13.302734 C 5.0059037 -13.302734 9.3464603 -10.555968 11.617188 -6.4863281 C 11.444061 -6.5903516 11.266602 -6.6851953 11.101562 -6.8066406 C 11.051801 -6.842206 10.992725 -6.8622365 10.931641 -6.8652344 C 10.702673 -6.8781604 10.536333 -6.6528318 10.615234 -6.4375 L 14.71875 4.7089844 C 14.821712 4.9861409 15.215399 4.9861409 15.318359 4.7089844 L 19.414062 -6.4375 C 19.5252 -6.7342496 19.183315 -6.9939635 18.927734 -6.8066406 C 17.954342 -6.1080174 16.842903 -5.7144588 15.712891 -5.5917969 C 13.404801 -12.051512 7.2403535 -16.697266 0 -16.697266 z" >
+                    <Path.RenderTransform>                        
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            <RotateTransform x:Name="LeftArrowRotation" CenterX="0.5" CenterY="0.5"/>
+                            <TranslateTransform x:Name="LeftArrowTranslate" X="523" Y="183.9" />
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path x:Name="RightArrow"
+                      Fill="Red"
+                      Data="m 0,-16.697266 c -7.2412369,0 -13.407417,4.646475 -15.714844,11.1074222 -1.128002,-0.1209083 -2.229501,-0.5147211 -3.183594,-1.2167968 -0.04976,-0.035565 -0.108832,-0.055596 -0.169921,-0.058594 -0.228968,-0.012926 -0.395308,0.2124026 -0.316407,0.4277344 l 4.103516,11.1464844 c 0.102962,0.2771565 0.496649,0.2771565 0.599609,0 L -10.585938,-6.4375 c 0.111138,-0.2967496 -0.230747,-0.5564635 -0.486328,-0.3691406 -0.17778,0.1275963 -0.368518,0.2275186 -0.554687,0.3359375 C -9.3587198,-10.549229 -5.0125174,-13.302734 0,-13.302734 7.3650977,-13.302734 13.302734,-7.3650977 13.302734,0 13.30436,0.9370142 14.062986,1.6956404 15,1.6972656 15.937014,1.6956404 16.69564,0.9370142 16.697266,0 16.697266,-9.2034448 9.2034448,-16.697266 0,-16.697266 Z" >
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            <RotateTransform x:Name="RightArrowRotation"  CenterX="0.5" CenterY="0.5"/>
+                            <TranslateTransform x:Name="RightArrowTranslate" X="523" Y="183.9" />
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Canvas>
+        </Viewbox>
+
+    </DockPanel>
+</UserControl>

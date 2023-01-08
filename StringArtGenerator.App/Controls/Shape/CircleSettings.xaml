@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="StringArtGenerator.App.Controls.Shape.CircleSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StringArtGenerator.App.Controls.Shape"
+             xmlns:ctrl="clr-namespace:StringArtGenerator.App.Controls"
+             xmlns:addShapes="clr-namespace:StringArtGenerator.App.Adapters.Shape"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:behaviors="clr-namespace:StringArtGenerator.App.Resources.Behaviors"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance addShapes:CircleSettingsAdapter}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Nail Diameter"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Diameter"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Nails Count"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="DeadZone"/>
+
+        <xctk:DoubleUpDown Grid.Column="1" Grid.Row="0" FormatString="F2" Increment="0.01" Value="{Binding NailDiameter}"/>
+        <xctk:DoubleUpDown Grid.Column="1" Grid.Row="1" Minimum="1" Value="{Binding Diameter}"/>
+        <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Minimum="10" Maximum="1000" Value="{Binding NailCount}"/>
+        <xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" Minimum="0" Maximum="{Binding NailCount}" Value="{Binding DeadZone}"/>
+    </Grid>
+</UserControl>

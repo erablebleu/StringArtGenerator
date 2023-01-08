@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:adapterShapes="clr-namespace:StringArtGenerator.App.Adapters.Shape"
+                    xmlns:ctrlShapes="clr-namespace:StringArtGenerator.App.Controls.Shape"
+                    xmlns:viewModels="clr-namespace:StringArtGenerator.App.ViewModels"
+                    xmlns:views="clr-namespace:StringArtGenerator.App.Views">
+
+    <!-- ViewModels -->
+    <DataTemplate DataType="{x:Type viewModels:MainViewModel}">
+        <views:MainView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:StepperViewModel}">
+        <views:StepperView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:MapperViewModel}">
+        <views:MapperView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:TimeLineViewModel}">
+        <views:TimeLineView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+        <views:SettingsView />
+    </DataTemplate>
+
+    <!-- Adapter.Shapes -->
+    <DataTemplate DataType="{x:Type adapterShapes:PolygonSettingsAdapter}">
+        <ctrlShapes:PolygonSettings />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type adapterShapes:RectangleSettingsAdapter}">
+        <ctrlShapes:RectangleSettings />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type adapterShapes:CircleSettingsAdapter}">
+        <ctrlShapes:CircleSettings />
+    </DataTemplate>
+    
+</ResourceDictionary>
