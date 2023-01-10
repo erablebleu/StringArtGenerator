@@ -1,4 +1,4 @@
-Draw picture with thread (en some C#)
+Draw picture with thread (and some C#)
 
 <h3>Example</h3>
 
